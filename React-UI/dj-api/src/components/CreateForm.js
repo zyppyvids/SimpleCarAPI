@@ -14,6 +14,7 @@ class CreateForm extends Component {
         super(props);
         this.state = {
             models: [],
+            isLoading: true,
             isSubmitted: false,
             VIN: "",
             carplate: "",
@@ -27,7 +28,7 @@ class CreateForm extends Component {
     }
 
     componentDidMount() {
-        axios.get(API_URL_CARMODELS, options).then(res => this.setState({ models: res.data, modelid: (res.data.length === 0 ? "" : res.data[0].id) }));
+        axios.get(API_URL_CARMODELS, options).then(res => this.setState({ models: res.data, modelid: (res.data.length === 0 ? "" : res.data[0].id), isLoading: false }));
     }
 
     handleChange(e) {
@@ -85,71 +86,76 @@ class CreateForm extends Component {
 			<option key={iterator} value={item.id}>{item.model} [{item.year}]</option>
 		)
 	}, this);
-    if(!this.state.isSubmitted) {
-        return (
-            <Container>
-            <h1 style={{textAlign:'center', color:'rgb(40, 150, 250)'}}>-create-</h1>
-            <h5 style={{textAlign:'center', color:'gray'}}>create a car by its VIN/Car Plate/Model</h5>
-            <Form>
-                <Form.Group as={Row} className="mb-3" controlId="formGroup">
-                <Col sm="4">
-                    <FloatingLabel label="Enter Car's VIN">
-                    <Form.Control type="text" placeholder="0" name="VIN" onChange={this.handleChange}/>
-                    </FloatingLabel>
-                </Col>
-
-                <Col sm="4">
-                    <FloatingLabel label="Enter Car's Plate">
-                    <Form.Control type="text" placeholder="0" name="carplate" onChange={this.handleChange}/>
-                    </FloatingLabel>
-                </Col>
-
-                <Col sm="4">
-                    <FloatingLabel label="Select Car's Model">
-                    <Form.Select placeholder="0" onChange={this.handleSelectChange}>
-                        {modelsList}
-                    </Form.Select>
-                    </FloatingLabel>
-                </Col>
-                </Form.Group>
-
-                <br/>
-                <Form.Group as={Row} className="mb-3">
-                    <Button variant="info" style={{backgroundColor:'rgb(40, 150, 250)', borderColor:'black'}} onClick={this.handleCreateClick}>Create</Button>
-                </Form.Group>
-            </Form>
-            </Container>
-        );
-    }
-    else {
-        return (
-            <div style={{paddingLeft: 15, paddingRight: 15, textAlign: 'center'}}>
-                <Table responsive>
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>VIN</th>
-                        <th>Car Plate</th>
-                        <th>Model ID</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        <tr key="1">
-                            <td>{this.state.createdCar.id}</td>
-                            <td>{this.state.createdCar.VIN}</td>
-                            <td>{this.state.createdCar.carplate}</td>
-                            <td>{this.state.createdCar.modelid}</td>
-                        </tr>
-                    </tbody>
-                </Table>
-                <br/>
+    if(!this.state.isLoading) {
+        if(!this.state.isSubmitted) {
+            return (
+                <Container>
+                <h1 style={{textAlign:'center', color:'rgb(40, 150, 250)'}}>-create-</h1>
+                <h5 style={{textAlign:'center', color:'gray'}}>create a car by its VIN/Car Plate/Model</h5>
                 <Form>
+                    <Form.Group as={Row} className="mb-3" controlId="formGroup">
+                    <Col sm="4">
+                        <FloatingLabel label="Enter Car's VIN">
+                        <Form.Control type="text" placeholder="0" name="VIN" onChange={this.handleChange}/>
+                        </FloatingLabel>
+                    </Col>
+
+                    <Col sm="4">
+                        <FloatingLabel label="Enter Car's Plate">
+                        <Form.Control type="text" placeholder="0" name="carplate" onChange={this.handleChange}/>
+                        </FloatingLabel>
+                    </Col>
+
+                    <Col sm="4">
+                        <FloatingLabel label="Select Car's Model">
+                        <Form.Select placeholder="0" onChange={this.handleSelectChange}>
+                            {modelsList}
+                        </Form.Select>
+                        </FloatingLabel>
+                    </Col>
+                    </Form.Group>
+
+                    <br/>
                     <Form.Group as={Row} className="mb-3">
-                        <Button variant="info" style={{backgroundColor:'rgb(40, 150, 250)', borderColor:'black'}} onClick={this.handleOkClick}>OK!</Button>
+                        <Button variant="info" style={{backgroundColor:'rgb(40, 150, 250)', borderColor:'black'}} onClick={this.handleCreateClick}>Create</Button>
                     </Form.Group>
                 </Form>
-            </div>
-        );        
+                </Container>
+            );
+        }
+        else {
+            return (
+                <div style={{paddingLeft: 15, paddingRight: 15, textAlign: 'center'}}>
+                    <Table responsive>
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>VIN</th>
+                            <th>Car Plate</th>
+                            <th>Model ID</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr key="1">
+                                <td>{this.state.createdCar.id}</td>
+                                <td>{this.state.createdCar.VIN}</td>
+                                <td>{this.state.createdCar.carplate}</td>
+                                <td>{this.state.createdCar.modelid}</td>
+                            </tr>
+                        </tbody>
+                    </Table>
+                    <br/>
+                    <Form>
+                        <Form.Group as={Row} className="mb-3">
+                            <Button variant="info" style={{backgroundColor:'rgb(40, 150, 250)', borderColor:'black'}} onClick={this.handleOkClick}>OK!</Button>
+                        </Form.Group>
+                    </Form>
+                </div>
+            );        
+        }
+    }
+    else {
+        return (<i className="fa fa-spinner fa-spin"></i>);
     }
 }
     

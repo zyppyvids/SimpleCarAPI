@@ -13,14 +13,15 @@ class DeleteForm extends Component {
     super(props);
     this.state = {
         cars: [],
-        id: ""
+        id: "",
+        isLoading: true
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleDeleteClick = this.handleDeleteClick.bind(this);
   }
 
   componentDidMount() {
-    axios.get(API_URL_CARS, options).then(res => this.setState({ cars: res.data, id: (res.data.length === 0 ? "" : res.data[0].id) }));
+    axios.get(API_URL_CARS, options).then(res => this.setState({ cars: res.data, id: (res.data.length === 0 ? "" : res.data[0].id), isLoading: false }));
   }
 
   handleChange(e) {
@@ -43,28 +44,34 @@ class DeleteForm extends Component {
       )
 	  }, this);
 
-    return (
-        <Container>
-        <h1 style={{textAlign:'center', color:'rgb(243, 80, 80)'}}>-delete-</h1>
-        <h5 style={{textAlign:'center', color:'gray'}}>delete a car by selecting it</h5>
-        <Form>
-            <Form.Group as={Row} className="mb-3" controlId="formGroup">
-            <Col sm="12">
-              <FloatingLabel label="Select Car">
-              <Form.Select placeholder="0" onChange={this.handleChange}>
-              {carsList}
-              </Form.Select>
-              </FloatingLabel>
-            </Col>
-            </Form.Group>
+    if(!this.state.isLoading)
+    {
+      return (
+          <Container>
+          <h1 style={{textAlign:'center', color:'rgb(243, 80, 80)'}}>-delete-</h1>
+          <h5 style={{textAlign:'center', color:'gray'}}>delete a car by selecting it</h5>
+          <Form>
+              <Form.Group as={Row} className="mb-3" controlId="formGroup">
+              <Col sm="12">
+                <FloatingLabel label="Select Car">
+                <Form.Select placeholder="0" onChange={this.handleChange}>
+                {carsList}
+                </Form.Select>
+                </FloatingLabel>
+              </Col>
+              </Form.Group>
 
-            <br/>
-            <Form.Group as={Row} className="mb-3">
-              <Button variant="info" style={{backgroundColor:'rgb(243, 80, 80)', borderColor:'black'}} onClick={this.handleDeleteClick}>Delete</Button>
-            </Form.Group>
-        </Form>
-        </Container>
-    );
+              <br/>
+              <Form.Group as={Row} className="mb-3">
+                <Button variant="info" style={{backgroundColor:'rgb(243, 80, 80)', borderColor:'black'}} onClick={this.handleDeleteClick}>Delete</Button>
+              </Form.Group>
+          </Form>
+          </Container>
+      );
+    }
+    else {
+      return (<i className="fa fa-spinner fa-spin"></i>);
+    }
   }
        
 }
