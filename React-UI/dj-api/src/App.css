@@ -1,0 +1,81 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/*
+ * Specific classNames
+ */
+.search {
+  border-color: turquoise;
+}
+
+.update {
+  border-color: plum;
+}
+
+.create {
+  border-color: rgb(40, 150, 250);
+}
+
+.delete {
+  border-color: rgb(243, 80, 80);
+}
+
+.invert-img {
+  -webkit-filter: invert(1);
+  filter: invert(1);
+}
+
+/*
+ * Generic classNames for divs and containers
+ */ 
+
+.form {
+  border-width: 3px;
+  border-style: solid;
+  border-radius: 15px;
+
+  padding: 1%;
+}
+
+.vertical-horizontal-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height:100vh;  
+}

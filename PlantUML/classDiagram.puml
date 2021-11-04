@@ -1,0 +1,34 @@
+@startuml ClassDiagram
+class Car {
+  -Int id
+  -String VIN
+  -String carplate
+  -Int modelid
+  
+  +Int id()
+  +String VIN()
+  +String carplate()
+}
+
+class CarModel {
+  -Int id
+  -String model
+  -String year
+  -Int carmakeid
+
+  +Int id()
+  +String model()
+  +String year()
+}
+
+class CarMake {
+  -Int id
+  -String name
+
+  +Int id()
+  +String name()
+}
+
+Car --|> CarModel: modelid
+CarModel --|> CarMake: carmakeid
+@enduml

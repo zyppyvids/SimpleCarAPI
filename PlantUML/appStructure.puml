@@ -1,0 +1,5 @@
+@startuml AppStructure
+[Django Rest Framework (Python)] -> [PostgreSQL DB]
+[Django Rest Framework (Python)] ..> [React (JS)] : use
+[React (JS)] ..> [Bootstrap] : use
+@enduml
