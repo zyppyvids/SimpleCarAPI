@@ -20,8 +20,11 @@ class DeleteForm extends Component {
     this.handleDeleteClick = this.handleDeleteClick.bind(this);
   }
 
-  componentDidMount() {
-    axios.get(API_URL_CARS, options).then(res => this.setState({ cars: res.data, id: (res.data.length === 0 ? "" : res.data[0].id), isLoading: false }));
+  componentWillMount() {
+    axios.get(API_URL_CARS, options).then(res => this.setState({ cars: res.data, id: (res.data.length === 0 ? "" : res.data[0].id), isLoading: false })).catch((error) => {
+      console.log(error);
+      this.setState({isLoading: false});
+    });  
   }
 
   handleChange(e) {
@@ -40,7 +43,7 @@ class DeleteForm extends Component {
 	  let carsList = cars.length > 0
       && cars.map((item, iterator) => {
       return (
-        <option key={iterator} value={item.id}>[{item.id}] [{item.VIN}] [{item.carplate}]</option>
+        <option style={{textAlign: "center"}} key={iterator} value={item.id}>[{item.id}] [{item.VIN}] [{item.carplate}]</option>
       )
 	  }, this);
 
@@ -70,10 +73,13 @@ class DeleteForm extends Component {
       );
     }
     else {
-      return (<i className="fa fa-spinner fa-spin"></i>);
+      return (
+        <Container>
+          <h1 style={{textAlign:'center', color:'rgb(243, 80, 80)'}}>...</h1>
+        </Container>
+      );
     }
   }
-       
 }
 
 export default DeleteForm;

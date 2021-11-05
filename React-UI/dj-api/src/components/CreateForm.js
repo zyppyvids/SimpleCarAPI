@@ -27,8 +27,11 @@ class CreateForm extends Component {
         this.handleOkClick = this.handleOkClick.bind(this);
     }
 
-    componentDidMount() {
-        axios.get(API_URL_CARMODELS, options).then(res => this.setState({ models: res.data, modelid: (res.data.length === 0 ? "" : res.data[0].id), isLoading: false }));
+    componentWillMount() {
+        axios.get(API_URL_CARMODELS, options).then(res => this.setState({ models: res.data, modelid: (res.data.length === 0 ? "" : res.data[0].id), isLoading: false })).catch((error) => {
+            console.log(error);
+            this.setState({isLoading: false});
+        });
     }
 
     handleChange(e) {
@@ -60,11 +63,7 @@ class CreateForm extends Component {
         
         jsonBody += "}";
         
-        axios.post(API_URL_CARS, jsonBody, options).then(() => axios.get(getRequestLink, options).then(res => this.setState({ createdCar: res.data[0] })));
-        
-        this.setState(({
-            isSubmitted: true
-        }));
+        axios.post(API_URL_CARS, jsonBody, options).then(() => axios.get(getRequestLink, options).then(res => this.setState({ createdCar: res.data[0], isSubmitted: true })));
     }
 
     handleOkClick() {
@@ -155,7 +154,11 @@ class CreateForm extends Component {
         }
     }
     else {
-        return (<i className="fa fa-spinner fa-spin"></i>);
+        return (
+            <Container>
+                <h1 style={{textAlign:'center', color:'rgb(40, 150, 250)'}}>...</h1>
+            </Container>
+        );
     }
 }
     

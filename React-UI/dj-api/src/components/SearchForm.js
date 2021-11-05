@@ -40,11 +40,7 @@ class SearchForm extends Component {
     if(this.state.carplate)
       requestLink += (ANDCHAR + API_CARPLATE + this.state.carplate);
 
-    axios.get(requestLink, options).then(res => this.setState({ cars: res.data }));
-
-    this.setState(({
-      isSubmitted: true
-    }));
+    axios.get(requestLink, options).then(res => this.setState({ cars: res.data, isSubmitted: true }));
   }
 
   handleOkClick() {

@@ -8,7 +8,7 @@ class NavbarComp extends Component {
         return (
         <Navbar bg="light" variant="light" expand="lg" style={{position: 'fixed', width: '100%'}}>
             <Container>
-                <Navbar.Brand href=""><img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmaxcdn.icons8.com%2FShare%2Ficon%2Fdotty%2FTransport%2Fcar1600.png&f=1&nofb=1" width={50} height={50} alt="-car-"></img></Navbar.Brand>
+                <Navbar.Brand><img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmaxcdn.icons8.com%2FShare%2Ficon%2Fdotty%2FTransport%2Fcar1600.png&f=1&nofb=1" width={50} height={50} alt="-car-"></img></Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">

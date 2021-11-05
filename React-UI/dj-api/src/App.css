@@ -71,11 +71,21 @@
   border-radius: 15px;
 
   padding: 1%;
+  
+  position: absolute;
+  width: 65%;
+  height: 55%;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .vertical-horizontal-center {
   display: flex;
   justify-content: center;
   align-items: center;
-  height:100vh;  
+  height: 100vh;  
 }

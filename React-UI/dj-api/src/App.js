@@ -35,7 +35,7 @@ class App extends Component {
   loadSearchView(){
     return (
       <div className='vertical-horizontal-center'>
-        <div className='search form'>
+        <div className='search form content'>
           <SearchForm />
         </div>
       </div>
@@ -45,7 +45,7 @@ class App extends Component {
   loadUpdateView(){
     return (
       <div className='vertical-horizontal-center'>
-        <div className='update form'>
+        <div className='update form content'>
           <UpdateForm />
         </div>
       </div>
@@ -55,7 +55,7 @@ class App extends Component {
   loadCreateView(){
     return (
       <div className='vertical-horizontal-center'>
-        <div className='create form'>
+        <div className='create form content'>
           <CreateForm />
         </div>
       </div>
@@ -65,7 +65,7 @@ class App extends Component {
   loadDeleteView(){
     return (
       <div className='vertical-horizontal-center'>
-        <div className='delete form'>
+        <div className='delete form content'>
           <DeleteForm />
         </div>
       </div>

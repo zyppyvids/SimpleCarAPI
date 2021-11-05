@@ -49,11 +49,7 @@ class UpdateForm extends Component {
 
         // Updates the requested object then gets it by its id and displays it to the user
         // get is in the put's then clause because we want to ensure these steps are one after the other
-        axios.put(requestLink, jsonBody, options).then(() => axios.get(requestLink, options).then(res => this.setState({ updatedCar: res.data })));
-        
-        this.setState(({
-            isSubmitted: true
-        }));
+        axios.put(requestLink, jsonBody, options).then(() => axios.get(requestLink, options).then(res => this.setState({ updatedCar: res.data, isSubmitted: true })));
     }
 
     handleOkClick() {

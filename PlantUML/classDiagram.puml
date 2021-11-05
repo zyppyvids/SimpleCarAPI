@@ -29,6 +29,6 @@ class CarMake {
   +String name()
 }
 
-Car --|> CarModel: modelid
-CarModel --|> CarMake: carmakeid
+Car --> CarModel: modelid
+CarModel --> CarMake: carmakeid
 @enduml
