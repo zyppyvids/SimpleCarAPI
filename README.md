@@ -15,6 +15,10 @@ The database consists of three models:
     1. Car (id, VIN, carplate, modelid)
     2. CarModel (id, model, year, carmakeid)
     3. CarMake (id, name)
+    
+There is Django and React JS Validation for fields:
+    1. VIN - should be 10 characters long, consisting only of numbers.
+    2. Car's Plate - should be 8 characters long, in the form of 'AA1234BB'.
 
 ![Class diagram](https://www.plantuml.com/plantuml/png/TL2z2i903Dxx51aLwGjqa49TEkWYk8SsbEBbbFGwYFZkNbhILk7WXdp9zvDBEGIKCBA3ok4md7hi13bh54250kyC8AzzWBxLwXgazntSwii6DIXFXu6Coe-MtCIFxp2BTtkjL_aFDeFO_6Hh-5bz4XjC6Hly8XGZDYYCTuhyHFuaNZec_q-F5ebmZqmfRvtDJdg-F3ykFocMmrX7nnPLRDOkoRSZkoy0)
 
