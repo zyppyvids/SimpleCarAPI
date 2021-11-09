@@ -17,6 +17,7 @@ The database consists of three models:
     3. CarMake (id, name)
     
 There is Django and React JS Validation for fields:
+
     1. VIN - should be 10 characters long, consisting only of numbers.
     2. Car's Plate - should be 8 characters long, in the form of 'AA1234BB'.
 
