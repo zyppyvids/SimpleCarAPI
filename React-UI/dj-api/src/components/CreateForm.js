@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/Button';
 import FloatingLabel from 'react-bootstrap/esm/FloatingLabel';
 import Table from 'react-bootstrap/Table';
 import axios from 'axios';
+import { FormErrors } from './FormErrors';
 import { API_URL_CARS, API_URL_CARMODELS, QUERYCHAR, ANDCHAR, API_VIN, options } from '../constants';
 
 class CreateForm extends Component {
@@ -19,7 +20,11 @@ class CreateForm extends Component {
             VIN: "",
             carplate: "",
             modelid: "",
-            createdCar: ""
+            createdCar: "",
+            formErrors: {VIN: '', carplate: ''},
+            VINValid: false,
+            carplateValid: false,
+            formValid: false
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSelectChange = this.handleSelectChange.bind(this);
@@ -27,7 +32,7 @@ class CreateForm extends Component {
         this.handleOkClick = this.handleOkClick.bind(this);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         axios.get(API_URL_CARMODELS, options).then(res => this.setState({ models: res.data, modelid: (res.data.length === 0 ? "" : res.data[0].id), isLoading: false })).catch((error) => {
             console.log(error);
             this.setState({isLoading: false});
@@ -35,7 +40,7 @@ class CreateForm extends Component {
     }
 
     handleChange(e) {
-        this.setState({ [e.target.name]: e.target.value });
+        this.setState({ [e.target.name]: e.target.value }, () => { this.validateField(e.target.name, e.target.value) });
     }
 
     handleSelectChange(e) {
@@ -44,26 +49,27 @@ class CreateForm extends Component {
 
     handleCreateClick(e) {
         e.preventDefault();
+        if(this.state.formValid) {
+            var getRequestLink = API_URL_CARS + QUERYCHAR + ANDCHAR + API_VIN + this.state.VIN
+            
+            // JSON Body build
+            var jsonBody = "{";
 
-        var getRequestLink = API_URL_CARS + QUERYCHAR + ANDCHAR + API_VIN + this.state.VIN
-        
-        // JSON Body build
-        var jsonBody = "{";
+            if(this.state.VIN)
+                jsonBody += ("\"VIN\": ".concat("\"", this.state.VIN, "\","));
+            if(this.state.carplate)
+                jsonBody += ("\"carplate\": ".concat("\"", this.state.carplate, "\","));
+            if(this.state.modelid)
+                jsonBody += ("\"modelid\": ".concat(this.state.modelid));
 
-        if(this.state.VIN)
-            jsonBody += ("\"VIN\": ".concat("\"", this.state.VIN, "\","));
-        if(this.state.carplate)
-            jsonBody += ("\"carplate\": ".concat("\"", this.state.carplate, "\","));
-        if(this.state.modelid)
-            jsonBody += ("\"modelid\": ".concat(this.state.modelid));
-
-        // Removes last ',' if there is one
-        if(jsonBody.charAt(jsonBody.length - 1) === ',')
-            jsonBody = jsonBody.slice(0, -1);
-        
-        jsonBody += "}";
-        
-        axios.post(API_URL_CARS, jsonBody, options).then(() => axios.get(getRequestLink, options).then(res => this.setState({ createdCar: res.data[0], isSubmitted: true })));
+            // Removes last ',' if there is one
+            if(jsonBody.charAt(jsonBody.length - 1) === ',')
+                jsonBody = jsonBody.slice(0, -1);
+            
+            jsonBody += "}";
+            
+            axios.post(API_URL_CARS, jsonBody, options).then(() => axios.get(getRequestLink, options).then(res => this.setState({ createdCar: res.data[0], isSubmitted: true })));
+        }
     }
 
     handleOkClick() {
@@ -72,8 +78,40 @@ class CreateForm extends Component {
             VIN: "",
             carplate: "",
             modelid: "",
-            createdCar: ""
+            createdCar: "",
+            formErrors: {VIN: '', carplate: ''},
+            VINValid: false,
+            carplateValid: false,
+            formValid: false
         }));
+    }
+
+    validateField(fieldName, value) {
+        let fieldValidationErrors = this.state.formErrors;
+        let VINValid = this.state.VINValid;
+        let carplateValid = this.state.carplateValid;
+      
+        switch(fieldName) {
+          case 'VIN':
+            VINValid = value.match(/^([0-9]{10})$/i);
+            fieldValidationErrors.VIN = VINValid ? '' : ' should be 10 characters long! \u26A0';
+            break;
+          case 'carplate':
+            carplateValid = value.match(/^([A-Z]{2}[0-9]{4}[A-Z]{2})$/i);
+            fieldValidationErrors.carplate = carplateValid ? '': ' should be 8 characters long and be in the form of \'AA1234BB\'! \u26A0';
+            break;
+          default:
+            break;
+        }
+
+        this.setState({formErrors: fieldValidationErrors,
+                        VINValid: VINValid,
+                        carplateValid: carplateValid
+                      }, this.validateForm);
+    }
+      
+    validateForm() {
+    this.setState({formValid: this.state.VINValid && this.state.carplateValid});
     }
 
     render() {
@@ -91,6 +129,11 @@ class CreateForm extends Component {
                 <Container>
                 <h1 style={{textAlign:'center', color:'rgb(40, 150, 250)'}}>-create-</h1>
                 <h5 style={{textAlign:'center', color:'gray'}}>create a car by its VIN/Car Plate/Model</h5>
+      
+                <div className="panel panel-default" style={{textAlign:"center"}}>
+                    <FormErrors formErrors={this.state.formErrors} />
+                </div>
+
                 <Form>
                     <Form.Group as={Row} className="mb-3" controlId="formGroup">
                     <Col sm="4">

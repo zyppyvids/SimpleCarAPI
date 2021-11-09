@@ -20,7 +20,7 @@ class DeleteForm extends Component {
     this.handleDeleteClick = this.handleDeleteClick.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     axios.get(API_URL_CARS, options).then(res => this.setState({ cars: res.data, id: (res.data.length === 0 ? "" : res.data[0].id), isLoading: false })).catch((error) => {
       console.log(error);
       this.setState({isLoading: false});
