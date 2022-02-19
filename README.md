@@ -1,4 +1,4 @@
-# -Simple Car API-
+# Simple Car API
 
 A simple car API that consists of all CRUD operations done on the model 'Car' - [GET], [POST], [PUT], [DELETE].
 
